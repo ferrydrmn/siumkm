@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-12 my-3 rounded shadow bg-white">
+    <h1 class="my-3">Home</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="container-fluid overflow-hidden">
+      <div class="row d-flex justify-content-around">
+        <div class="card my-3 border shadow-none" style="max-width: 540px;">
+          <div class="row g-0 p-2">
+            <div class="col-md-4">
+              <img src="{{ url_for('static', filename='img/icon/team-fredi-FN3vmVee2sI-unsplash.jpg') }}" class="img-fluid w-100 h-100 rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Jumlah Pemilik UMKM</h5>
+                <p class="card-text fs-1 fw-bold">{{ owner_count }}</p>
+                <p class="card-text"><small class="text-muted">Terakhir diperbarui: {{ owner_last_update }}</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card my-3 border shadow-none" style="max-width: 540px;">
+          <div class="row g-0 p-2">
+            <div class="col-md-4">
+              <img src="{{ url_for('static', filename='img/icon/marcellin-bric-aHIt6hDXroI-unsplash.jpg') }}" class="img-fluid w-100 h-100 rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Jumlah UMKM</h5>
+                <p class="card-text fs-1 fw-bold">{{ umkm_count }}</p>
+                <p class="card-text"><small class="text-muted">Terakhir diperbarui: {{ umkm_last_update }}</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="card my-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="..." class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card my-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="..." class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
+          </div>
+        </div> -->
+    </div>
+  </div>
+</div>
+{% endblock content %}

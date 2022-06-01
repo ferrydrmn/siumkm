@@ -1,0 +1,242 @@
+$(document).ready(function () {
+    // Cek input NIK dan kategori bisnis ketkika loading halaman telah selesai dilakukan
+    // Digunakan untuk menentukan tombol submit disabled atau tidak
+    jQuery(window).load(function () {
+        $("#submit").removeAttr('disabled');
+        let nik = $('#nik').val();
+        let business_cat = $('#business_category').val();
+        if(nik == '' && business_cat == 0) {
+            $("#submit").attr('disabled','disabled'); //disable.
+        } else if (nik != '' && business_cat != '-'){
+            $("#submit").removeAttr('disabled'); //enable.
+        }
+    });
+
+    // Cek NIK (Apakah sudah terdaftar di sistem?)
+    $('#nik').change(function () {
+        let nik = $('#nik').val();
+        let business_cat = $('#business_category').val();
+        console.log(nik);
+        $.ajax({
+            url: '/check_nik',
+            type: 'GET',
+            data: {
+                nik: nik,
+            }
+        }).done(function (data) {
+            $('.nik-errors').empty();
+            $('.nik-errors').remove();
+            console.log(data);
+            if (data.error) {                
+                $('#nik').removeClass('is-valid')
+                $('#nik').addClass('is-invalid')
+                $("<div class='invalid-feedback nik-errors'><span>NIK tidak terdaftar pada sistem!</span></div>").insertAfter('#nik');
+                $("#submit").attr('disabled','disabled'); //disable.
+                // console.log(data.districts[0]['id']);
+            } else if (data.success) {
+                $('#nik').removeClass('is-invalid')
+                $('#nik').addClass('is-valid')
+                $("<div class='valid-feedback nik-errors'><span>NIK terdaftar pada sistem!</span></div>").insertAfter('#nik');
+                if(business_cat != 0) {
+                    $("#submit").removeAttr('disabled'); //enable.
+                } else {
+                    $("#submit").attr('disabled','disabled'); //disable.
+                }
+            }
+        });
+    });
+
+    // Validasi kategori bisnis dan NIK
+    $('#business_category').change(function() {
+        let nik = $('#nik').val();
+        let business_cat = $('#business_category').val();
+        if(business_cat == 0 || nik == '') {
+            $('#submit').attr('disabled', 'disabled');
+        } else {
+            $('#submit').removeAttr('disabled');
+        }
+    });
+    
+    // SelectField dinamis (provinsi)
+    $('#province').change(function () {
+        let id_province = $('#province option:selected').val();
+        console.log(id_province);
+        if (id_province == 0) {
+            // Animasikan fadeOut dan fadeIn
+            $('#district').fadeOut(250).fadeIn(250);
+            $('#sub_district').fadeOut(250).fadeIn(250);
+            $('#ward').fadeOut(250).fadeIn(250);
+
+            // Reset kota/kabupaten
+            $('#district').attr('disabled', true);
+            $('#district').empty();
+
+            // Reset kecamatan
+            $('#sub_district').attr('disabled', true);
+            $('#sub_district').empty();
+
+            // Reset desa
+            $('#ward').attr('disabled', true);
+            $('#ward').empty();
+
+            console.log('Tidak berubah ya!');
+        } else {
+            // Animasikan fadeOut dan fadeIn
+            $('#district').fadeOut(250).fadeIn(250);
+            $('#sub_district').fadeOut(250).fadeIn(250);
+            $('#ward').fadeOut(250).fadeIn(250);
+
+            // Reset kota/kabupaten
+            $('#district').attr('disabled', true);
+            $('#district').empty();
+
+            // Reset kecamatan
+            $('#sub_district').attr('disabled', true);
+            $('#sub_district').empty();
+
+            // Reset desa
+            $('#ward').attr('disabled', true);
+            $('#ward').empty();
+
+            // Kirim request GET dengan datanya adalah ID provinsi
+            // ID provinsi digunakan untuk mengambil data kabupaten
+            $.ajax({
+                url: '/get_district',
+                type: 'GET',
+                data: {
+                    id_province: id_province
+                }
+            }).done(function (data) {
+                if (data) {
+                    $('#district').attr('disabled', false);
+                    $('#district').empty();
+
+                    $('#district').append($("<option></option>")
+                        .attr('value', 0).text('- Pilih Kota/Kabupaten -'));
+
+
+                    $.each(data.districts, function (index, element) {
+
+                        $('#district').append($("<option></option>")
+                            .attr('value', element.id).text(element.name));
+
+                    });
+
+                    // console.log(data.districts[0]['id']);
+                }
+            });
+        }
+    });
+
+    // SelectField dinamis (kota/kabupaten)
+    $('#district').change(function () {
+        let id_district = $('#district option:selected').val();
+        if (id_district == 0) {
+            // Animasikan fadeOut dan fadeIn
+            $('#sub_district').fadeOut(250).fadeIn(250);
+
+            // Reset kecamatan
+            $('#sub_district').attr('disabled', true);
+            $('#sub_district').empty();
+
+            // Animasikan fadeOut dan fadeIn dan reset desa
+            // jika data desa telah diisi sebelumnya
+            if (!$('#ward').attr('disabled')) {
+                $('#ward').fadeOut(250).fadeIn(250);
+                $('#ward').attr('disabled', true);
+                $('#ward').empty();
+
+            }
+        } else {
+            // Animasikan fadeOut dan fadeIn
+            $('#sub_district').fadeOut(250).fadeIn(250);
+
+            // Reset kecamatan
+            $('#sub_district').attr('disabled', true);
+            $('#sub_district').empty();
+
+            // Animasikan fadeOut dan fadeIn dan reset desa
+            // jika data desa telah diisi sebelumnya
+            if (!$('#ward').attr('disabled')) {
+                $('#ward').fadeOut(250).fadeIn(250);
+                $('#ward').attr('disabled', true);
+                $('#ward').empty();
+
+            }
+            // Kirim request GET dengan datanya adalah ID kota/kabupaten
+            // ID kota/kabupaten digunakan untuk mengambil data kecamatan
+            $.ajax({
+                url: '/get_sub_district',
+                type: 'GET',
+                data: {
+                    id_district: id_district
+                }
+            }).done(function (data) {
+                if (data) {
+                    $('#sub_district').attr('disabled', false);
+                    $('#sub_district').empty();
+
+                    $('#sub_district').append($("<option></option>")
+                        .attr('value', 0).text('- Pilih Kecamatan -'));
+
+                    $.each(data.sub_districts, function (index, element) {
+
+                        $('#sub_district').append($("<option></option>")
+                            .attr('value', element.id).text(element.name));
+
+                    });
+
+                }
+            });
+        }
+
+    });
+
+    // SelectField dinamis (kecamatan)
+    $('#sub_district').change(function () {
+        let id_district = $('#district option:selected').val();
+        let id_sub_district = $('#sub_district option:selected').val();
+        console.log('subdis' + id_sub_district);
+        console.log('dis' + id_district);
+        if(id_sub_district == 0) {
+            if(id_district == 0) {
+                $('#sub_district').attr('disabled', true);
+            } else {
+                $('#ward').fadeOut(250).fadeIn(250);
+                $('#ward').empty();
+                $('#ward').attr('disabled', true);
+            }
+            
+        } else {
+            // Animasikan fadeOut dan fadeIn
+            $('#ward').fadeOut(250).fadeIn(250);
+
+            // Reset kecamatan
+            $('#ward').attr('disabled', true);
+            $('#ward').empty();
+
+            // Kirim request GET dengan datanya adalah ID kecamatan
+            // ID kecamatan digunakan untuk mengambil data kelurahan/desa
+            $.ajax({
+                url: '/get_ward',
+                type: 'GET',
+                data: {
+                    id_sub_district: id_sub_district
+                }
+            }).done(function (data) {
+                if (data) {
+                    $('#ward').attr('disabled', false);
+                    $('#ward').empty();
+
+                    $.each(data.wards, function (index, element) {
+
+                        $('#ward').append($("<option></option>")
+                            .attr('value', element.id).text(element.name));
+
+                    });
+
+                }
+            });
+        }
+    });
+});

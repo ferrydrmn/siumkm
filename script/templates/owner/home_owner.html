@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12 my-3 rounded shadow bg-white">
+        <h1 class="my-3">Data Pemilik UMKM</h1>
+        <a href="{{url_for('owner_create') }}" class="btn btn-primary mb-3">+ Tambah Data Pemilik UMKM</a>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        {% if owners and len(owners.items) != 0 %}
+        <div class="table-responsive">
+            <table id="table" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">No.</th>
+                        <th class="text-center">NIK</th>
+                        <th class="text-center">Nama</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for owner in owners.items %}
+                    <tr>
+                        <td>{{ (page * 10) - 10 + loop.index }}</td>
+                        <td>{{ owner.nik }}</td>
+                        <td>{{ owner.name }}</td>
+                        <td><a href="{{ url_for('owner_update', id=owner.id) }}"
+                                class="btn btn-info text-light">Detail</a>
+                        </td>
+                        <td>
+                            <form action="{{ url_for('owner_delete', id=owner.id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin?');">
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-danger">
+            Belum ada data UMKM yang telah ditambahkan!
+        </div>
+        {% endif %}
+        {% for page_num in owners.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+        {% if owners.page == page_num %}
+        <a class="btn btn-primary mb-4" href="{{ url_for('owner_home', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+        <a class="btn btn-outline-primary mb-4" href="{{ url_for('owner_home', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
