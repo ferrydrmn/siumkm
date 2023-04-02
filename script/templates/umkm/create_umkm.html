@@ -1,0 +1,310 @@
+{% extends 'component/layout.html' %}
+
+{% block head %}
+{{ super() }}
+
+<!-- Custom styles for this template -->
+<link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+<!-- Custom styles for this page -->
+<link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<!-- Page Heading -->
+<a href="{{ previous_page }}" class="btn btn-warning mb-3"><i class="bi bi-arrow-left"></i> Kembali</a>
+<h1 class="h3 mb-2 text-gray-800">Tambah Data UMKM</h1>
+<p class="mb-4">Form tambah data UMKM secara manual.</p>
+
+<!-- Owner Form -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Form Tambah Data UMKM</h6>
+    </div>
+    <div class="card-body">
+        <form action="" method="POST">
+            <p class="text-danger">* Wajib</p>
+            {{ form.hidden_tag() }}
+            {{ form.id_umkm() }}
+            <div class="row">
+                <div class="col-md-5 col-xl-4">
+                    {{ form.nik.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.nik.errors %}
+                    {{ form.nik(class="form-control is-invalid") }}
+                    <div class="invalid-feedback nik-errors">
+                        {% for error in form.nik.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.nik(class="form-control") }}
+                    {% endif %}
+                </div>
+                <div class="col-md-5 col-xl-4">
+                    {{ form.name.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.name.errors %}
+                    {{ form.name(class="form-control is-invalid") }}
+                    <div class="invalid-feedback name-errors">
+                        {% for error in form.name.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.name(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    {{ form.business_category.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.business_category.errors %}
+                    {{ form.business_category(class="form-control is-invalid") }}
+                    <div class="invalid-feedback business-category-errors">
+                        {% for error in form.business_category.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.business_category(class="form-control") }}
+                    {% endif %}
+                </div>
+                <div class="col-md-4 col-xl-3">
+                    {{ form.business_type.label(class="form-control-label mt-3") }}
+                    {% if form.business_type.errors %}
+                    {{ form.business_category(class="form-control is-invalid") }}
+                    <div class="invalid-feedback business-type-errors">
+                        {% for error in form.business_type.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.business_type(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    {{ form.province.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.province.errors %}
+                    {{ form.province(class="form-control is-invalid") }}
+                    <div class="invalid-feedback province-errors">
+                        {% for error in form.province.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.province(class="form-control") }}
+                    {% endif %}
+                </div>
+                <div class="col-md-4 col-xl-3">
+                    {{ form.district.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.district.errors %}
+                    {{ form.district(class="form-control is-invalid", disabled="disabled") }}
+                    <div class="invalid-feedback district-errors">
+                        {% for error in form.district.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.district(class="form-control", disabled="disabled") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    {{ form.sub_district.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.sub_district.errors %}
+                    {{ form.sub_district(class="form-control is-invalid", disabled="disabled") }}
+                    <div class="invalid-feedback sub_district-errors">
+                        {% for error in form.sub_district.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.sub_district(class="form-control", disabled="disabled") }}
+                    {% endif %}
+                </div>
+                <div class="col-md-4 col-xl-3">
+                    {{ form.ward.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.ward.errors %}
+                    {{ form.ward(class="form-control is-invalid", disabled="disabled") }}
+                    <div class="invalid-feedback ward-errors">
+                        {% for error in form.ward.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.ward(class="form-control", disabled="disabled") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-xl-6">
+                    {{ form.address.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.address.errors %}
+                    {{ form.address(class="form-control is-invalid", rows="5") }}
+                    <div class="invalid-feedback address-errors">
+                        {% for error in form.address.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.address(class="form-control", rows="5") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    {{ form.start_date.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.start_date.errors %}
+                    {{ form.start_date(class="form-control is-invalid") }}
+                    <div class="invalid-feedback start-date-errors">
+                        {% for error in form.start_date.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.start_date(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    {{ form.modal.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.modal.errors %}
+                    {{ form.modal(class="form-control is-invalid") }}
+                    <div class="invalid-feedback modal-errors">
+                        {% for error in form.modal.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.modal(class="form-control") }}
+                    {% endif %}
+                </div>
+                <div class="col-md-4 col-xl-3">
+                    {{ form.workers.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.workers.errors %}
+                    {{ form.workers(class="form-control is-invalid") }}
+                    <div class="invalid-feedback workers-errors">
+                        {% for error in form.workers.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.workers(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-xl-4">
+                    {{ form.email.label(class="form-control-label font-weight-bold mt-3") }}
+                    {% if form.email.errors %}
+                    {{ form.email(class="form-control is-invalid", rows="5") }}
+                    <div class="invalid-feedback email-errors">
+                        {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.email(class="form-control", rows="5") }}
+                    {% endif %}
+                </div>
+                <div class="col-md-5 col-xl-4">
+                    {{ form.twitter.label(class="form-control-label mt-3") }}
+                    {% if form.twitter.errors %}
+                    {{ form.twitter(class="form-control is-invalid", rows="5") }}
+                    <div class="invalid-feedback twitter-errors">
+                        {% for error in form.twitter.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.twitter(class="form-control", rows="5") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-xl-4">
+                    {{ form.facebook.label(class="form-control-label mt-3") }}
+                    {% if form.facebook.errors %}
+                    {{ form.facebook(class="form-control is-invalid", rows="5") }}
+                    <div class="invalid-feedback facebook-errors">
+                        {% for error in form.facebook.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.facebook(class="form-control", rows="5") }}
+                    {% endif %}
+                </div>
+                <div class="col-md-5 col-xl-4">
+                    {{ form.instagram.label(class="form-control-label mt-3") }}
+                    {% if form.instagram.errors %}
+                    {{ form.instagram(class="form-control is-invalid", rows="5") }}
+                    <div class="invalid-feedback instagram-errors">
+                        {% for error in form.instagram.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.instagram(class="form-control", rows="5") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-xl-4">
+                    {{ form.marketplace.label(class="form-control-label mt-3") }}
+                    {% if form.marketplace.errors %}
+                    {{ form.marketplace(class="form-control is-invalid", rows="5") }}
+                    <div class="invalid-feedback marketplace-errors">
+                        {% for error in form.marketplace.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.marketplace(class="form-control", rows="5") }}
+                    {% endif %}
+                </div>
+                <div class="col-md-5 col-xl-4">
+                    {{ form.website.label(class="form-control-label mt-3") }}
+                    {% if form.website.errors %}
+                    {{ form.website(class="form-control is-invalid", rows="5") }}
+                    <div class="invalid-feedback website-errors">
+                        {% for error in form.website.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.website(class="form-control", rows="5") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-xl-4">
+                    {{ form.problem.label(class="form-control-label mt-3") }}
+                    {% if form.problem.errors %}
+                    {{ form.address(class="form-control is-invalid", rows="5") }}
+                    <div class="invalid-feedback problem-errors">
+                        {% for error in form.problem.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.problem(class="form-control", rows="5") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary mt-3") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+{{ super() }}
+<!-- Form Validation -->
+<script src="{{ url_for('static', filename='js/form/UmkmForm.js') }}"></script>
+{% endblock script %}

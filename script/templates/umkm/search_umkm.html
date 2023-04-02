@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12 my-3 rounded shadow bg-white">
+        <h1 class="my-3">Cari Data UMKM</h1>
+        <a href="{{url_for('umkm_create') }}" class="btn btn-primary mb-3">+ Tambah Data UMKM</a>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        {% if umkms and umkms.items %}
+        <table id="table" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Nama UMKM</th>
+                    <th>NIK Pemilik</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for umkm in umkms.items %}
+                <tr>
+                    <td>{{ (page * 10) - 10 + loop.index }}</td>
+                    <td>{{ umkm.name}}</td>
+                    <td>{{ umkm.owner.nik }}</td>
+                    <td><a href="{{ url_for('umkm_update', id=umkm.id) }}" class="btn btn-info text-light">Detail</a>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('umkm_delete', id=umkm.id) }}" method="POST">
+                            <button type="submit" class="btn btn-danger" onclick="confirmation()">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-danger">
+            Data UMKM tidak ditemukan!
+        </div>
+        {% endif %}
+        {% for page_num in umkms.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+        {% if umkms.page == page_num %}
+        <a class="btn btn-primary mb-4" href="{{ url_for('umkm_home', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+        <a class="btn btn-outline-primary mb-4" href="{{ url_for('umkm_home', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<script>
+    function confirmation(){
+    confirm("Apakah Anda yakin ingin mennghapus data pemilik UMKM?");
+}
+</script>
+{% endblock content %}

@@ -1,0 +1,222 @@
+{% extends 'component/layout.html' %}
+
+{% block head %}
+{{ super() }}
+
+<!-- Custom styles for this template -->
+<link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+<!-- Custom styles for this page -->
+<link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Unggah Data Excel</h1>
+<p class="mb-4">Form unggah data excel untuk input data secara otomatis.</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<!-- Form Unduh Format Excel -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Form Unduh Format Excel</h6>
+    </div>
+    <div class="card-body">
+        <ol>
+            <li><a href="{{ url_for('excel_format', format='all') }}">Unduh format excel semua data.</a></li>
+            <li><a href="{{ url_for('excel_format', format='owner') }}">Unduh format excel pemilik UMKM.</a></li>
+            <li><a href="{{ url_for('excel_format', format='umkm') }}">Unduh format excel UMKM.</a></li>
+            <li><a href="{{ url_for('excel_format', format='brand') }}">Unduh format excel brand/merek.</a></li>
+            <li><a href="{{ url_for('excel_format', format='product') }}">Unduh format excel produk.</a></li>
+        </ol>
+    </div>
+</div>
+
+<!-- Form Unggah Data Excel -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Form Unggah Excel Semua Data</h6>
+    </div>
+    <div class="card-body">
+        <form action="{{url_for('excel_all')}}" enctype="multipart/form-data" method="POST">
+            <p class="text-danger">* Wajib</p>
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-5 col-xl-4">
+                    {{ form.excel.label(class="form-control-file-label font-weight-bold mt-3") }}
+                    {% if form.excel.errors %}
+                    {{ form.excel(class="form-control-file is-invalid required") }}
+                    <div class="invalid-feedback excel-errors">
+                        {% for error in form.excel.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.excel(class="form-control-file required") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-xl-4 ml-4 mt-3">
+                    {{ form.update(class="form-check-input") }}
+                    {{ form.update.label(class="form-check-label") }}                
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary mt-3") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Form Unggah Excel Pemilik UMKM</h6>
+    </div>
+    <div class="card-body">
+        <form action="{{url_for('excel_owner')}}" enctype="multipart/form-data" method="POST">
+            <p class="text-danger">* Wajib</p>
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-5 col-xl-4">
+                    {{ form.excel.label(class="form-control-file-label font-weight-bold mt-3") }}
+                    {% if form.excel.errors %}
+                    {{ form.excel(class="form-control-file is-invalid required") }}
+                    <div class="invalid-feedback excel-errors">
+                        {% for error in form.excel.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.excel(class="form-control-file required") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-xl-4 ml-4 mt-3">
+                    {{ form.update(class="form-check-input") }}
+                    {{ form.update.label(class="form-check-label") }}                
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary mt-3") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Form Unggah Excel UMKM</h6>
+    </div>
+    <div class="card-body">
+        <form action="{{url_for('excel_umkm')}}" enctype="multipart/form-data" method="POST">
+            <p class="text-danger">* Wajib</p>
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-5 col-xl-4">
+                    {{ form.excel.label(class="form-control-file-label font-weight-bold mt-3") }}
+                    {% if form.excel.errors %}
+                    {{ form.excel(class="form-control-file is-invalid required") }}
+                    <div class="invalid-feedback excel-errors">
+                        {% for error in form.excel.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.excel(class="form-control-file required") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-xl-4 ml-4 mt-3">
+                    {{ form.update(class="form-check-input") }}
+                    {{ form.update.label(class="form-check-label") }}                
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary mt-3") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Form Unggah Excel Brand</h6>
+    </div>
+    <div class="card-body">
+        <form action="{{url_for('excel_brand')}}" enctype="multipart/form-data" method="POST">
+            <p class="text-danger">* Wajib</p>
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-5 col-xl-4">
+                    {{ form.excel.label(class="form-control-file-label font-weight-bold mt-3") }}
+                    {% if form.excel.errors %}
+                    {{ form.excel(class="form-control-file is-invalid required") }}
+                    <div class="invalid-feedback excel-errors">
+                        {% for error in form.excel.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.excel(class="form-control-file required") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-xl-4 ml-4 mt-3">
+                    {{ form.update(class="form-check-input") }}
+                    {{ form.update.label(class="form-check-label") }}                
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary mt-3") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Form Unggah Excel Produk</h6>
+    </div>
+    <div class="card-body">
+        <form action="{{url_for('excel_product')}}" enctype="multipart/form-data" method="POST">
+            <p class="text-danger">* Wajib</p>
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-5 col-xl-4">
+                    {{ form.excel.label(class="form-control-file-label font-weight-bold mt-3") }}
+                    {% if form.excel.errors %}
+                    {{ form.excel(class="form-control-file is-invalid required") }}
+                    <div class="invalid-feedback excel-errors">
+                        {% for error in form.excel.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.excel(class="form-control-file required") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary mt-3") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+</div>
+<script src="{{ url_for('static', filename='js/form/BrandForm.js') }}"></script>
+{% endblock content %}

@@ -1,0 +1,73 @@
+{% extends 'component/layout.html' %}
+
+{% block head %}
+{{ super() }}
+
+<!-- Custom styles for this template -->
+<link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+<!-- Custom styles for this page -->
+<link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Data Riwayat Unggah Excel</h1>
+<p class="mb-4">Berisi seluruh data riwayat unggah excel yang terdaftar dalam sistem.</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<!-- Brand Datatable -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tabel Data Excel</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <a href="{{ url_for('excel_upload_home') }}" class="btn btn-primary mb-3">+ Unggah Data Excel</a>
+            </br>
+            <form method='POST' action='/excel/download/delete' onsubmit="return confirm('Apakah Anda yakin?');">
+                <button type='submit' class='btn btn-danger mb-3'><i class="bi bi-trash"></i> Hapus Data Unduh Excel</button>
+            </form>
+            <form method='POST' action='/excel/upload/delete' onsubmit="return confirm('Apakah Anda yakin?');">
+                <button type='submit' class='btn btn-danger mb-3'><i class="bi bi-trash"></i> Hapus Data Unggah Excel</button>
+            </form>
+            <table class="table table-bordered" id="table-excel" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Path File</th>
+                        <th>Pengunggah</th>
+                        <th>Tipe Excel</th>
+                        <th>Tanggal Unggah</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+{{ super() }}
+
+<!-- Page level plugins -->
+<script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+<!-- Brand datatable scripts -->
+<script src="{{ url_for('static', filename='vendor/datatables/data/excelTable.js') }}"></script>
+
+{% endblock script %}
+</body>
+
+</html>

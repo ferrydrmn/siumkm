@@ -1,0 +1,65 @@
+{% extends 'component/layout.html' %}
+
+{% block head %}
+{{ super() }}
+
+<!-- Custom styles for this template -->
+<link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+<!-- Custom styles for this page -->
+<link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Data Provinsi</h1>
+<p class="mb-4">Berisi seluruh data provinsi yang terdaftar dalam sistem.</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<!-- Brand Datatable -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tabel Data Provinsi</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <a href="{{ url_for('province_create') }}" class="btn btn-primary mb-3">+ Tambah Data Provinsi</a>
+            <table class="table table-bordered" id="table-province" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nama Provinsi</th>
+                        <th>Jumlah Kota/Kabupaten</th>
+                        <th>Aksi</th>
+                        <th>Terakhir Diperbarui</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+{{ super() }}
+
+<!-- Page level plugins -->
+<script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+<!-- Brand datatable scripts -->
+<script src="{{ url_for('static', filename='vendor/datatables/data/provinceTable.js') }}"></script>
+
+{% endblock script %}
+</body>
+
+</html>

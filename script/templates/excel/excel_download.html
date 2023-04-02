@@ -1,0 +1,45 @@
+{% extends 'component/layout.html' %}
+
+{% block head %}
+{{ super() }}
+
+<!-- Custom styles for this template -->
+<link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+<!-- Custom styles for this page -->
+<link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Unduh Data Excel</h1>
+<p class="mb-4">Unduh data excel sesuai pilihan.</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<!-- Form Unggah Data Excel -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Form Unduh Data Excel</h6>
+    </div>
+    <div class="card-body">
+        <ol>
+            <li><a href="{{ url_for('excel_download', id_download=0) }}">Unduh semua data.</a></li>
+            <li><a href="{{ url_for('excel_download', id_download=1) }}">Unduh data pemilik UMKM.</a></li>
+            <li><a href="{{ url_for('excel_download', id_download=2) }}">Unduh data UMKM.</a></li>
+            <li><a href="{{ url_for('excel_download', id_download=3) }}">Unduh data brand/merek.</a></li>
+            <li><a href="{{ url_for('excel_download', id_download=4) }}">Unduh data produk.</a></li>
+        </ol>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/form/BrandForm.js') }}"></script>
+{% endblock content %}

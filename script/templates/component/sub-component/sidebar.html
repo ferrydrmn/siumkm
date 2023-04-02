@@ -1,0 +1,131 @@
+<ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center bg-white" href="{{ url_for('home') }}">
+        <div class="sidebar-brand-icon">
+            <img src="{{ url_for('static', filename='img/favicon/icon-xsm.png') }}" alt="">
+        </div>
+        <div class="sidebar-brand-text mx-3" style="color: black">SIUMKM</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item {% if active == 'home' %} active {% endif %}">
+        <a class="nav-link" href="{{ url_for('home') }}">
+            <i class="bi bi-house-door"></i>
+            <span>Dashboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Data UMKM
+    </div>
+
+    <!-- Nav Item - UMKM Data Page -->
+    <li class="nav-item {% if active == 'owner' %} active {% endif %}">
+        <a class="nav-link" href="{{ url_for('owner_home') }}">
+            <i class="bi bi-people"></i>
+            <span>Pemilik UMKM</span></a>
+    <li class="nav-item {% if active == 'umkm' %} active {% endif %}">
+        <a class="nav-link" href="{{ url_for('umkm_home') }}">
+            <i class="bi bi-shop"></i>
+            <span>UMKM</span></a>
+    </li>
+    <li class="nav-item {% if active == 'brand' %} active {% endif %}">
+        <a class="nav-link" href="{{ url_for('brand_home') }}">
+            <i class="bi bi-file-text"></i>
+            <span>Brand</span></a>
+    </li>
+    <li class="nav-item {% if active == 'product' %} active {% endif %}">
+        <a class="nav-link" href="{{ url_for('product_home') }}">
+            <i class="bi bi-box2"></i>
+            <span>Produk</span></a>
+    </li>
+    </li>
+    
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Excel
+    </div>
+
+    <!-- Nav Item - Excel Data Page -->
+    <li class="nav-item {% if active == 'excel_management' %} active {% endif %}">
+        <a class="nav-link" href="{{ url_for('excel_home') }}">
+            <i class="bi bi-file-earmark-excel"></i>
+            <span>Kelola Data Excel</span></a>
+    </li>
+    <li class="nav-item {% if active == 'excel_upload' %} active {% endif %}">
+        <a class="nav-link" href="{{ url_for('excel_upload_home') }}">
+            <i class="bi bi-upload"></i>
+            <span>Unggah Data Excel</span></a>
+    <li class="nav-item {% if active == 'excel_download' %} active {% endif %}">
+        <a class="nav-link" href="{{ url_for('excel_download_home') }}">
+            <i class="bi bi-download"></i>
+            <span>Unduh Data Excel</span></a>
+    </li>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Pengaturan Input
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu (Locations) -->
+    <li class="nav-item {% if active == 'location' %} active {% endif %}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesLocation" aria-expanded="true"
+            aria-controls="collapsePagesLocation">
+            <i class="bi bi-pin-map"></i>
+            <span>Lokasi</span>
+        </a>
+        <div id="collapsePagesLocation" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url_for('province_home') }}">Provinsi</a>
+                <a class="collapse-item" href="{{ url_for('district_home') }}">Kota/Kabupaten</a>
+                <a class="collapse-item" href="{{ url_for('sub_district_home') }}">Kecamatan</a>
+                <a class="collapse-item" href="{{ url_for('ward_home') }}">Desa</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Business Input -->
+    <li class="nav-item {% if active == 'business_category' %} active {% endif %}">
+        <a class="nav-link" href="{{ url_for('business_category_home') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Kategori Bisnis</span></a>
+    
+    <!-- Nav Item - Pages Collapse Menu (Product) -->
+    <li class="nav-item {% if active == 'product_input' %} active {% endif %}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesProduct" aria-expanded="true"
+            aria-controls="collapsePages">
+            <i class="bi bi-box-seam"></i>
+            <span>Pengaturan Produk</span>
+        </a>
+        <div id="collapsePagesProduct" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url_for('product_type_home') }}">Tipe Produk</a>
+                <a class="collapse-item" href="{{ url_for('product_category_home') }}">Kategori Produk</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+
+</ul>

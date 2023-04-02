@@ -1,0 +1,90 @@
+{% extends 'component/layout.html' %}
+
+{% block head %}
+{{ super() }}
+
+<!-- Custom styles for this template -->
+<link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+<!-- Custom styles for this page -->
+<link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Data UMKM</h1>
+<p class="mb-4">Berisi seluruh data UMKM yang terdaftar dalam sistem.</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<!-- UMKM Datatable -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tabel Data UMKM</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <a href="{{ url_for('umkm_create') }}" class="btn btn-primary mb-3">+ Tambah Data UMKM</a>
+            <table class="table table-bordered" id="table-umkm" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nama UMKM</th>
+                        <th>Kategori Bisnis</th>
+                        <th>Desa</th>
+                        <th>Kecamatan</th>
+                        <th>Kabupaten</th>
+                        <th>Provinsi</th>
+                        <th>Jumlah Brand</th>
+                        <th>Aksi</th>
+                        <th>Terakhir Diperbarui</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Owner Delete Modal-->
+<div class="modal fade" id="modal-owner" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog w-100" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Apakah Anda yakin?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Penghapusan data pemilik UMKM akan berimbas pada terhapusnya data UMKM, brand, dan
+                produk yang dimilikinya.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Tidak</button>
+                <a class="btn btn-danger" href="login.html">Ya</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+{{ super() }}
+
+<!-- Page level plugins -->
+<script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+<!-- Owner datatable scripts -->
+<script src="{{ url_for('static', filename='vendor/datatables/data/umkmTable.js') }}"></script>
+
+{% endblock script %}
+</body>
+
+</html>

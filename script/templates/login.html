@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SIUMKM - {{ title }}</title>
+
+    <!-- Customized Bootstrap for Template -->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
+        type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icon -->
+    <link href="{{ url_for('static', filename='vendor/bootstrap/icon/bootstrap-icons.css') }}" rel="stylesheet"
+        type="text/css">
+
+</head>
+
+<body>
+    <div class="container-fluid bg-light">
+        <div class="container">
+            <div class="row min-vh-100 align-items-center">
+                <div class="col-lg-8 offset-lg-2 h-50 rounded shadow bg-white">
+                    <div class="content-section m-4">
+                        <form method="POST" action="">
+                            {{ form.hidden_tag() }}
+                            <fieldset class="form-group">
+                                <div class="d-flex flex-column justify-content-center align-items-center">
+                                    <img src="{{ url_for('static', filename='img/favicon/icon.png') }}" alt=""
+                                        class="img-fluid w-25">
+                                    <legend class="text-center">SISTEM INFORMASI UMKM</legend>
+                                </div>
+                                <div class="container-fluid mt-3">
+                                    <div class="row">
+                                        <div class="col-md-8 offset-md-2">
+                                            {{ form.email.label(class="form-control-label") }}
+                                            {% if form.email.errors %}
+                                            {{ form.email(class="form-control form-control-lg is-invalid") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.email.errors %}
+                                                <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                            {% else %}
+                                            {{ form.email(class="form-control form-control-lg") }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid mt-3">
+                                    <div class="row">
+                                        <div class="col-md-8 offset-md-2">
+                                            {{ form.password.label(class="form-control-label") }}
+                                            {% if form.password.errors %}
+                                            {{ form.password(class="form-control form-control-lg is-invalid") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.password.errors %}
+                                                <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                            {% else %}
+                                            {{ form.password(class="form-control form-control-lg") }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-fluid mt-3">
+                                    <div class="row">
+                                        <div class="col-md-8 offset-md-2">
+                                            {{ form.remember(class="form-check-input") }}
+                                            {{ form.remember.label(class="form-check-label") }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-8 offset-md-2">
+                                        {% with messages = get_flashed_messages(with_categories=true) %}
+                                        {% if messages %}
+                                        {% for category, message in messages %}
+                                        <p class="text-{{ category }} text-center mt-3">
+                                            {{ message }}
+                                        </p>
+                                        {% endfor %}
+                                        {% endif %}
+                                        {% endwith %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3 text-center">
+                                {{ form.submit(class="btn btn-primary w-25") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+
+     <!-- Core plugin JavaScript-->
+     <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+</body>
+
+</html>
